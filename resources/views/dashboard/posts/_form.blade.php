@@ -12,7 +12,7 @@
                     class="w-full bg-transparent border-none focus:ring-0 font-display-lg text-display-lg resize-none placeholder:text-surface-variant text-on-surface mb-8 overflow-hidden"
                     placeholder="Enter your title...">
                 <!-- Floating Toolbar (Contextual) -->
-                {{-- 
+                {{--
                 <div class="sticky top-20 z-40 flex justify-center mb-12">
                     <div
                         class="bg-inverse-surface text-inverse-on-surface px-2 py-1.5 rounded-xl shadow-xl flex items-center gap-1 border border-outline/20">
@@ -78,6 +78,45 @@
                             class="material-symbols-outlined text-secondary group-hover:text-primary transition-colors">add_a_photo</span>
                         <span class="font-metadata text-metadata text-secondary">Upload high-res photo</span>
                     </div>
+                </section>
+                <!-- Categories -->
+                <section class="mt-6 border-t border-outline-variant pt-6">
+                    <h3 class="font-ui-label text-ui-label text-on-surface mb-4 uppercase tracking-wider">Category</h3>
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        @if(isset($post) && $post->category)
+                            <span id="selected-category-badge" class="bg-primary text-on-primary px-3 py-1 rounded-full font-metadata text-metadata flex items-center gap-1 shadow-sm">
+                                <span class="material-symbols-outlined text-[16px]">folder</span>
+                                <span id="badge-text">{{ $post->category->name }}</span>
+                            </span>
+                        @else
+                            <span id="selected-category-badge" class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-metadata text-metadata flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[16px]">help_outline</span>
+                                <span id="badge-text">No category selected</span>
+                            </span>
+                        @endif
+                    </div>
+                    <div class="relative">
+                        <select
+                            name="category_id"
+                            id="category_select"
+                            class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 font-metadata text-metadata focus:ring-1 focus:ring-primary focus:border-primary transition-all appearance-none cursor-pointer @error('category_id') border-error @enderror"
+                            required>
+                            <option value="" disabled {{ !isset($post) ? 'selected' : '' }}>-- Select Post Category --</option>
+
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}"
+                                        {{ (old('category_id', $post->category_id ?? '') == $category->id) ? 'selected' : '' }}
+                                        data-name="{{ $category->name }}">
+                                    {{ $category->name }} {{ $category->parent ? '(Sub-category)' : '(Main)' }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                    </div>
+
+                    @error('category_id')
+                    <p class="text-error text-xs mt-1 font-metadata">{{ $message }}</p>
+                    @enderror
                 </section>
                 <!-- Tags -->
                 <section>

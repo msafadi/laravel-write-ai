@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Number;
@@ -46,8 +47,11 @@ class PostController extends Controller
      */
     public function create()
     {
+        $Categories = Category::all();
+
         return view('dashboard.posts.create', [
             'post' => new Post(),
+            'categories' => $Categories,
         ]);
     }
 
@@ -59,6 +63,7 @@ class PostController extends Controller
         $request->merge([
             'user_id' => 1, // TODO: get from auth()->id()
             'slug' => Str::slug($request->post('title')),
+            'category_id' => $request->post('category_id', null),
             'status' => 'published',
         ]);
 
@@ -75,8 +80,10 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
 
+
         return view('dashboard.posts.show', [
             'post' => $post,
+
         ]);
     }
 
@@ -86,9 +93,11 @@ class PostController extends Controller
     public function edit(int $id)
     {
         $post = Post::findOrFail($id);
+        $Categories = Category::all();
 
         return view('dashboard.posts.edit', [
             'post' => $post,
+            'categories' => $Categories,
         ]);
     }
 

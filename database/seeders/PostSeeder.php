@@ -14,16 +14,16 @@ class PostSeeder extends Seeder
     public function run(): void
     {
 
-        // DB::table('categories')->insert([
-        //     'name' => 'Travel',
-        //     'slug' => 'travel',
-        //     'description' => 'Category for travel-related posts.',
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
+         DB::table('categories')->insert([
+             'name' => 'Travel',
+             'slug' => 'travel',
+             'description' => 'Category for travel-related posts.',
+             'created_at' => now(),
+             'updated_at' => now(),
+         ]);
 
         $category = DB::table('categories')
-            ->where('slug', 'general')
+            ->where('slug', 'travel')
             ->orderBy('id', 'desc')
             ->limit(1)
             ->first();
