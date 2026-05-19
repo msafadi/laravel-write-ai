@@ -17,7 +17,6 @@ class Category extends Model
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
-// جلب التصنيفات الفرعية التابعة له
     public function children()
     {
         return $this->hasMany(Category::class, 'parent_id');
