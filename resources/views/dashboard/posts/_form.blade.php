@@ -1,4 +1,4 @@
-<form action="{{ $action ?? route('dashboard.posts.store') }}" method="POST">
+<form action="{{ $action ?? route('dashboard.posts.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method($method ?? 'POST')
 
@@ -7,10 +7,20 @@
         <!-- Editor Canvas -->
         <div class="flex-1 max-w-article-max mx-auto w-full distraction-free-focus">
             <div class="editor-container">
+                @if ($errors->any())
+                <div class="text-red-800 mb-4 border border-red-900 bg-red-300">
+                    @foreach ($errors->all() as $message)
+                    <p>{{ $message }}</p>
+                    @endforeach
+                </div>
+                @endif
                 <!-- Title Field -->
-                <input type="text" name="title" value="{{ $post->title }}"
+                <input type="text" name="title" value="{{ old('title', $post->title) }}"
                     class="w-full bg-transparent border-none focus:ring-0 font-display-lg text-display-lg resize-none placeholder:text-surface-variant text-on-surface mb-8 overflow-hidden"
                     placeholder="Enter your title...">
+                @error('title')
+                <p class="text-red-800">{{ $message }}</p>
+                @enderror
                 <!-- Floating Toolbar (Contextual) -->
                 {{-- 
                 <div class="sticky top-20 z-40 flex justify-center mb-12">
@@ -56,7 +66,10 @@
                 <textarea name="content"
                     class="w-full bg-transparent border-none focus:ring-0 font-body-lg text-body-lg text-on-surface leading-relaxed placeholder:text-surface-variant"
                     data-placeholder="Type your story..."
-                    oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'>{{ $post->content }}</textarea>
+                    oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'>{{ old('content', $post->content) }}</textarea>
+                @error('content')
+                <p class="text-red-800">{{ $message }}</p>
+                @enderror
             </div>
             <button type="submit"
                 class="bg-primary text-on-primary px-6 py-3 rounded-lg font-ui-label text-ui-label hover:bg-primary-hover transition-colors">
@@ -72,12 +85,23 @@
                     <h3 class="font-ui-label text-ui-label text-on-surface mb-4 uppercase tracking-wider">Cover
                         Image
                     </h3>
+                    @if ($post->cover_image)
+                    <div class="aspect-video w-full rounded-lg bg-cover bg-center mb-4"
+                        style="background-image: url('{{ asset('storage/' . $post->cover_image) }}')"></div>
+                    @else
                     <div
                         class="aspect-video w-full rounded-lg bg-surface-container border-2 border-dashed border-outline-variant flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-surface-container-high transition-colors group">
                         <span
                             class="material-symbols-outlined text-secondary group-hover:text-primary transition-colors">add_a_photo</span>
                         <span class="font-metadata text-metadata text-secondary">Upload high-res photo</span>
                     </div>
+                    @endif
+                    <input type="file" name="cover" />
+                    @error('cover')
+                    @foreach ($errors->get('cover') as $error)
+                    <p class="text-red-800">{{ $error }}</p>
+                    @endforeach
+                    @enderror
                 </section>
                 <!-- Tags -->
                 <section>
