@@ -17,11 +17,11 @@ class UserSeeder extends Seeder
         DB::table('users')->delete();
 
         DB::table('users')->insert([
-            'name' => 'Mohammed Safadi',
-            'email' => 'm@safadi.ps',
+            'name' => 'Alaa Eid',
+            'email' => 'Alaa@gmail.com',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
-            'username' => 'msafadi',
+            'username' => 'alaaeid',
             'timezone' => 'Asia/Gaza',
             'status' => 'active',
             'created_at' => now(),
@@ -29,11 +29,11 @@ class UserSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'Ahmed Mohammed',
-            'email' => 'a@example.net',
+            'name' => 'menna eid',
+            'email' => 'menna@example.net',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
-            'username' => 'ahmed',
+            'username' => 'menna',
             'timezone' => 'Asia/Gaza',
             'status' => 'active',
             'created_at' => now(),
