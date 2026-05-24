@@ -52,6 +52,7 @@ class PostController extends Controller
     {
         return view('dashboard.posts.create', [
             'post' => new Post(),
+            'selectedCategories' => [],
         ]);
     }
 
@@ -71,6 +72,9 @@ class PostController extends Controller
         ]);
 
         $post = Post::create($data);
+
+        // sync categories (tags)
+        $post->categories()->sync($request->input('category_ids', []));
 
         // PRG: POST Redirect GET
         return redirect()
@@ -96,9 +100,13 @@ class PostController extends Controller
     public function edit(int $id)
     {
         $post = Post::findOrFail($id);
+        $post->load('categories');
 
         return view('dashboard.posts.edit', [
             'post' => $post,
+            'selectedCategories' => $post->categories->map(function ($c) {
+                return ['id' => $c->id, 'name' => $c->name];
+            })->toArray(),
         ]);
     }
 
@@ -115,6 +123,9 @@ class PostController extends Controller
         ]);
 
         $post->update($data);
+
+        // sync categories (tags)
+        $post->categories()->sync($request->input('category_ids', []));
 
         $previous = $post->getPrevious();
         $prev_cover_image = $previous['cover_image'] ?? null;

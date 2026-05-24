@@ -1,0 +1,58 @@
+<?php
+
+return [
+    [
+        'id' => 1,
+        'slug' => 'technology',
+        'name' => 'Technology',
+        'description' => 'Tools, platforms, and product engineering insights.',
+        'post_count' => 142,
+        'total_views' => 89400,
+        'status' => 'active',
+    ],
+    [
+        'id' => 2,
+        'slug' => 'design',
+        'name' => 'Design',
+        'description' => 'Visual systems, interfaces, and creative workflows.',
+        'post_count' => 86,
+        'total_views' => 42100,
+        'status' => 'active',
+    ],
+    [
+        'id' => 3,
+        'slug' => 'business',
+        'name' => 'Business',
+        'description' => 'Strategy, operations, and growth-focused content.',
+        'post_count' => 64,
+        'total_views' => 33600,
+        'status' => 'active',
+    ],
+    [
+        'id' => 4,
+        'slug' => 'marketing',
+        'name' => 'Marketing',
+        'description' => 'Audience growth, content planning, and brand campaigns.',
+        'post_count' => 51,
+        'total_views' => 27800,
+        'status' => 'active',
+    ],
+    [
+        'id' => 5,
+        'slug' => 'lifestyle',
+        'name' => 'Lifestyle',
+        'description' => 'Personal development, routines, and everyday ideas.',
+        'post_count' => 39,
+        'total_views' => 19300,
+        'status' => 'active',
+    ],
+    [
+        'id' => 6,
+        'slug' => 'writing',
+        'name' => 'Writing',
+        'description' => 'Storytelling, copy, and editorial craft.',
+        'post_count' => 28,
+        'total_views' => 12400,
+        'status' => 'archived',
+    ],
+];
