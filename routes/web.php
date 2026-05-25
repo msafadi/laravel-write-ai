@@ -10,6 +10,7 @@ Route::get('/', HomeController::class)->name('home');
 Route::group([
     'as' => 'dashboard.',
     'prefix' => 'dashboard/',
+    'middleware' => ['auth:web', 'verified'],
 ], function () {
 
     Route::resource('posts', PostController::class);
