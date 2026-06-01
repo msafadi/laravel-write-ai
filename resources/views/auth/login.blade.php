@@ -146,7 +146,7 @@
                 </div>
                 @endif
                 @error(config('fortify.username'))
-                <div class="mb-4 font-medium text-sm text-shadow-red-950 bg-red-200">
+                <div class="mb-4 font-medium text-sm text-red-950 bg-red-200">
                     {{ $message }}
                 </div>
                 @enderror
