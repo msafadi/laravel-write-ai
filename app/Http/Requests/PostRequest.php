@@ -45,6 +45,12 @@ class PostRequest extends FormRequest
                 'max:1024'
             ],
             'tags' => ['nullable', 'string'],
+            'published_at' => ['nullable', 'date'],
+            'meta' => ['nullable', 'array'],
+            'meta.title' => ['nullable', 'string', 'max:255'],
+            'meta.keywords' => ['nullable', 'string', 'max:255'],
+            'meta.url' => ['nullable', 'url'],
+            'meta.description' => ['nullable', 'string', 'max:500'],
         ];
     }
 

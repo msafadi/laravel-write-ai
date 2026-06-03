@@ -77,6 +77,43 @@
                 <p class="text-red-800">{{ $message }}</p>
                 @enderror
             </div>
+
+            <section>
+                <h3 class="font-ui-label text-ui-label text-on-surface mb-4 uppercase tracking-wider">Cover
+                    Metadata
+                </h3>
+                <div class="flex flex-col gap-4 mb-6">
+                    <label>Title</label>
+                    <input type="text" name="meta[title]" value="{{ old('meta.title', $post->meta['title'] ?? '') }}">
+                    @error('meta.title')
+                    <p class="text-red-800">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="flex flex-col gap-4 mb-6">
+                    <label>Description</label>
+                    <input type="text" name="meta[description]"
+                        value="{{ old('meta.description', $post->meta['description'] ?? '') }}">
+                    @error('meta.description')
+                    <p class="text-red-800">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="flex flex-col gap-4 mb-6">
+                    <label>Keywords</label>
+                    <input type="text" name="meta[keywords]"
+                        value="{{ old('meta.keywords', $post->meta['keywords'] ?? '') }}">
+                    @error('meta.keywords')
+                    <p class="text-red-800">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="flex flex-col gap-4 mb-6">
+                    <label>URL</label>
+                    <input type="text" name="meta[url]" value="{{ old('meta.url', $post->meta['url'] ?? '') }}">
+                    @error('meta.url')
+                    <p class="text-red-800">{{ $message }}</p>
+                    @enderror
+                </div>
+            </section>
+
             <button type="submit"
                 class="bg-primary text-on-primary px-6 py-3 rounded-lg font-ui-label text-ui-label hover:bg-primary-hover transition-colors">
                 Publish
@@ -108,6 +145,13 @@
                     <p class="text-red-800">{{ $error }}</p>
                     @endforeach
                     @enderror
+                </section>
+                <section>
+                    <h3 class="font-ui-label text-ui-label text-on-surface mb-4 uppercase tracking-wider">Publish Time
+                    </h3>
+                    <input name="published_at" value="{{ old('published_at', $post->published_at) }}"
+                        class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2 font-metadata text-metadata focus:ring-1 focus:ring-primary focus:border-primary transition-all"
+                        placeholder="Add tag..." type="datetime-local" />
                 </section>
                 <!-- Tags -->
                 <section>
