@@ -7,6 +7,7 @@ use App\Actions\SyncPostTags;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
+use App\Models\Scopes\OwnerScope;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -54,7 +55,8 @@ class PostController extends Controller
             ->withCount('comments')
             ->where('status', $status)
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10);
+
 
         return view('dashboard.posts.index', [
             'posts' => $posts,
@@ -82,8 +84,6 @@ class PostController extends Controller
         $clean = $request->validated();
 
         $data = array_merge($clean, [
-            'user_id' => $request->user()->id,
-            'slug' => Str::slug($request->post('title')),
             'status' => 'published',
             'cover_image' => $fileUpload->handle(key: 'cover', path: 'covers'),
         ]);
@@ -206,10 +206,6 @@ class PostController extends Controller
         $post = Post::onlyTrashed()->findOrFail($id);
 
         $post->forceDelete();
-
-        if ($post->cover_image) {
-            Storage::disk('public')->delete($post->cover_image); // Delete the cover image from storage
-        }
 
         // PRG: POST Redirect GET
         return redirect()->route('dashboard.posts.index')

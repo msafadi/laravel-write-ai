@@ -1,6 +1,6 @@
 <x-layout title="{{ $post->title }}">
 
-    <main class="pt-24 pb-section-gap">
+    <main class="pt-24 pb-section-gap max-w-container-max mx-auto px-gutter">
         <article class="mx-auto article-column px-margin-mobile md:px-0">
             <!-- Headline -->
             <header class="mb-12">
@@ -8,9 +8,7 @@
                 <!-- Author Bio -->
                 <div class="flex items-center justify-between py-6 border-y border-outline-variant">
                     <div class="flex items-center gap-4">
-                        <img class="w-12 h-12 rounded-full grayscale"
-                            data-alt="A close-up portrait of a thoughtful writer in a minimalist studio setting. The lighting is soft and directional, creating a gentle chiaroscuro effect. The image is rendered in a premium black and white style to match the editorial and high-contrast digital quiet aesthetic."
-                            src="{{ $post->thumbnail_url }}" />
+                        <img class="w-12 h-12 rounded-full grayscale" data-alt="" src="{{ $post->user->avatar_url }}" />
                         <div>
                             <div class="flex items-center gap-2">
                                 <span
@@ -19,7 +17,9 @@
                                 <button
                                     class="text-primary font-ui-label text-ui-label font-semibold hover:underline">Follow</button>
                             </div>
-                            <p class="font-metadata text-metadata text-secondary">{{ $post->created_at }} · 12 min read
+                            <p class="font-metadata text-metadata text-secondary">{{ $post->created_at }} ·
+                                {{ $post->read_time }} min read
+                                | {{ $post->views }} views
                             </p>
                         </div>
                     </div>
