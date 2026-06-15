@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    use SoftDeletes;
+    // use SoftDeletes;
 
     //
     public function posts(): HasMany
@@ -18,14 +18,14 @@ class Category extends Model
 
     protected static function booted()
     {
-        static::deleted(function (Category $category) {
-            $category->posts()->delete();
-        });
+        // static::deleted(function (Category $category) {
+        //     $category->posts()->delete();
+        // });
 
-        static::resored(function (Category $category) {
-            $category->posts()->update([
-                'deleted_at' => null,
-            ]);
-        });
+        // static::restored(function (Category $category) {
+        //     $category->posts()->update([
+        //         'deleted_at' => null,
+        //     ]);
+        // });
     }
 }

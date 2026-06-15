@@ -27,7 +27,7 @@ class PostController extends Controller
             ->firstOrFail();
 
         //event('posts.viewed', $post);
-        event(new PostViewed($post));
+        broadcast(new PostViewed($post))->toOthers();
 
         return view('posts.show', [
             'post' => $post,

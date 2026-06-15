@@ -69,4 +69,9 @@ class User extends Authenticatable
     {
         return $this->email;
     }
+
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'App.Models.User.' . $this->id;
+    }
 }

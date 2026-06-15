@@ -7,8 +7,9 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
     <title>{{ $title }}</title>
-
+    {{--
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    --}}
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Source+Serif+4:wght@400;600;700&amp;display=swap"
         rel="stylesheet" />
@@ -18,6 +19,13 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
+
+    <script>
+        const USER_ID = "{{ auth()->id() }}"
+    </script>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",

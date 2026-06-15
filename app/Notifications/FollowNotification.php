@@ -6,10 +6,11 @@ use App\Mail\GreetingMessage;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class FollowNotification extends Notification
+class FollowNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -18,7 +19,7 @@ class FollowNotification extends Notification
      */
     public function __construct(protected User $user, protected User $follower)
     {
-        //
+        $this->onQueue('notifications');
     }
 
     /**
@@ -28,7 +29,7 @@ class FollowNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        $via = ['database', 'mail'];
+        $via = ['database', 'mail', 'broadcast'];
 
         if ($notifiable->sms_notify) {
             $via[] = 'vonage';
@@ -76,6 +77,19 @@ class FollowNotification extends Notification
                 'follower_avatar' => $this->follower->avatar,
             ],
         ];
+    }
+
+    public function toBroadcast(object $notifiable): array|BroadcastMessage
+    {
+        return new BroadcastMessage([
+            'title' => 'New follower',
+            'body' => "{$this->follower->name} started following you.",
+            'link' => route('users.profile', $this->follower->username),
+            'meta' => [
+                'follower_id' => $this->follower->id,
+                'follower_avatar' => $this->follower->avatar,
+            ],
+        ]);
     }
 
     /**
