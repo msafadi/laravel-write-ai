@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
 use App\Models\Scopes\OwnerScope;
+use App\Services\PostService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -78,26 +79,11 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PostRequest $request, FileUpload $fileUpload, SyncPostTags $syncPostTags)
+    public function store(PostRequest $request, PostService $service)
     {
-        //$fileUpload = app(FileUpload::class);
-        $clean = $request->validated();
-
-        $data = array_merge($clean, [
-            'status' => 'published',
-            'cover_image' => $fileUpload->handle(key: 'cover', path: 'covers'),
-        ]);
-
-        DB::beginTransaction();
-
         try {
-            $post = Post::create($data);
-            $syncPostTags->handle($post, $clean['tags'] ?? '');
-
-            DB::commit();
+            $service->create($request);
         } catch (Throwable $e) {
-            DB::rollBack();
-
             return back()
                 ->withInput()
                 ->withErrors([
@@ -105,7 +91,7 @@ class PostController extends Controller
                 ]);
         }
 
-        // PRG: POST Redirect GET
+        // PRG: POST Redirect GET)
         return redirect()
             ->route('dashboard.posts.index')
             ->with('status', 'Post created!');
