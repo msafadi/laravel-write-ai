@@ -17,7 +17,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Override;
 
 #[Fillable(['name', 'email', 'password'])]
-#[Hidden(['password', 'remember_token'])]
+#[Hidden(['password', 'remember_token', 'two_factor_secret', 'two_factor_recovery_codes', 'two_factor_confirmed_at'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
@@ -60,6 +60,11 @@ class User extends Authenticatable
             ]);
     }
 
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
     public function avatarUrl(): Attribute
     {
         return new Attribute(
@@ -75,5 +80,15 @@ class User extends Authenticatable
     public function receivesBroadcastNotificationsOn()
     {
         return 'App.Models.User.' . $this->id;
+    }
+
+    public function hasAbility(string $ability): bool
+    {
+        foreach ($this->roles as $role) {
+            if (in_array($ability, $role->abilities)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
