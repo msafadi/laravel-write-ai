@@ -72,9 +72,7 @@ class RoleController extends Controller
             ->with('success', 'Role updated successfully!');
     }
 
-    /**
-     * حذف دور معين من النظام
-     */
+
     public function destroy(Role $role)
     {
         $role->delete();
