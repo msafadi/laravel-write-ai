@@ -34,7 +34,7 @@ class RoleController extends Controller
         $request->validate([
             'name'        => 'required|string|max:255|unique:roles,name',
             'abilities'   => 'required|array',
-            'abilities.*' => 'string' // التأكد أن كل عنصر داخل المصفوفة هو نص
+            'abilities.*' => 'string'
         ]);
 
         Role::create([
