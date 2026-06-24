@@ -69,6 +69,7 @@
                         breathe and every idea has the weight it deserves.</p>
                 </div>
                 --}}
+                <button class="rounded-sm border p-2" type="button" id="ai">Write with AI</button>
                 <textarea name="content" id="content"
                     class="w-full bg-transparent border-none focus:ring-0 font-body-lg text-body-lg text-on-surface leading-relaxed placeholder:text-surface-variant"
                     data-placeholder="Type your story..."
@@ -209,9 +210,33 @@
 </form>
 
 <script>
-    tinymce.init({
-        selector: '#content',
-        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-    });
+
+    const btn = document.getElementById('ai');
+    const content = document.getElementById('content');
+    btn.addEventListener('click', function name(event) {
+        event.preventDefault();
+        let message = window.prompt('Describe your post idea:');
+        if (message) {
+            const evtSource = new EventSource("{{ route('posts.ai') }}?message=" + message);
+            evtSource.onmessage = function (event) {
+                try {
+                    let data = JSON.parse(event.data);
+                    console.log(data?.delta);
+                    content.value = content.value + (data?.delta || '');
+                } catch (e) {
+                    console.error("JSON parse error", e);
+                }
+            };
+            evtSource.onerror = function (event) {
+                console.error("EventSource failed.");
+                evtSource.close();
+            };
+        }
+    })
+
+    // tinymce.init({
+    //     selector: '#content',
+    //     plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+    //     toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+    // });
 </script>
