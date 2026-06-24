@@ -132,7 +132,13 @@
     </header>
     <!-- Main Content Canvas -->
     <main class="min-h-[calc(100vh-128px)] flex items-center justify-center py-section-gap px-gutter">
+
         <div class="w-full max-w-[440px]">
+            @if (session('error'))
+                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                     {{ session('error') }}
+                </div>
+            @endif
             <!-- Login Card -->
             <div
                 class="bg-surface-container-lowest border border-outline-variant p-8 md:p-10 rounded-lg shadow-[0_20px_30px_-10px_rgba(0,0,0,0.05)] transition-all">

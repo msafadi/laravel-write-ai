@@ -24,7 +24,9 @@
         const USER_ID = "{{ auth()->id() }}"
     </script>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.tailwindcss.com"></script>
+
+{{--    @vite(['resources/css/app.css', 'resources/js/app.js'])--}}
 
     <script id="tailwind-config">
         tailwind.config = {

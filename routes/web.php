@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\AdminDashboard\RoleController;
 use App\Http\Controllers\AdminDashboard\UserController;
 use App\Http\Controllers\Dashboard\NotificationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Dashboard\PostController;
 use App\Http\Controllers\FollowController;
+use App\Http\Middleware\CheckUserStatus;
 use App\Http\Middleware\EnsureUserType;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +28,7 @@ Route::delete('users/{user}/unfollow', [FollowController::class, 'destroy'])
 Route::group([
     'as' => 'dashboard.',
     'prefix' => 'dashboard/',
-    'middleware' => ['auth:web', 'verified'],
+    'middleware' => ['auth:web', 'verified',CheckUserStatus::class],
 ], function () {
 
     Route::put('posts/{post}/restore', [PostController::class, 'restore'])
@@ -34,6 +36,7 @@ Route::group([
     Route::delete('posts/{post}/force', [PostController::class, 'forceDelete'])
         ->name('posts.force-delete');
 
+    Route::resource('roles', RoleController::class);
     Route::resource('posts', PostController::class);
 
     Route::group([
@@ -50,4 +53,6 @@ Route::group([
 
 
 Route::resource('admin/users', UserController::class)
+    ->middleware(['auth', 'type:super-admin,admin', 'can:update']);
+Route::resource('admin/roles', RoleController::class)
     ->middleware(['auth', 'type:super-admin,admin', 'can:update']);
