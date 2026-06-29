@@ -21,7 +21,14 @@ class AiWriteController extends Controller
         $prompt = "Write a complete blog post about: {$request->message}";
 
         // SSE response
-        return WriterAgent::make()->stream(
+        $agent = WriterAgent::make()
+            ->forUser($request->user());
+        
+        if ($request->conversation_id) {
+            $agent->continue($request->conversation_id, $request->user());
+        }
+
+        return $agent->stream(
             prompt: $prompt,
             provider: Lab::Groq,
             model: 'openai/gpt-oss-20b',

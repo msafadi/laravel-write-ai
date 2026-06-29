@@ -4,6 +4,7 @@ namespace App\Ai\Agents;
 
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Ai\Attributes\Provider;
+use Laravel\Ai\Concerns\RemembersConversations;
 use Laravel\Ai\Contracts\Agent;
 use Laravel\Ai\Contracts\Conversational;
 use Laravel\Ai\Contracts\HasStructuredOutput;
@@ -18,6 +19,7 @@ use Stringable;
 class WriterAgent implements Agent, Conversational, HasTools
 {
     use Promptable;
+    use RemembersConversations;
 
     /**
      * Get the instructions that the agent should follow.
