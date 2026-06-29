@@ -142,12 +142,13 @@
                 </nav>
             </div>
             <div class="flex items-center gap-4">
-                <div
+                <form action="{{ route('search') }}" method="GET"
                     class="hidden lg:flex items-center bg-surface-container border border-outline-variant rounded-full px-4 py-1.5 gap-2">
                     <span class="material-symbols-outlined text-secondary" data-icon="search">search</span>
-                    <input class="bg-transparent border-none focus:ring-0 text-ui-label font-ui-label w-48"
+                    <input name="q" value="{{ request('q') }}"
+                        class="bg-transparent border-none focus:ring-0 text-ui-label font-ui-label w-48"
                         placeholder="Search..." type="text" />
-                </div>
+                </form>
                 <div class="flex items-center gap-2">
                     <button
                         class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all">
@@ -163,9 +164,9 @@
         </div>
     </header>
     <!-- Main Content Layout -->
-    <main class="{{ $mainClass ?? '' }}">
-        {{ $slot }}
-    </main>
+
+    {{ $slot }}
+
     <!-- Footer -->
     <footer class="bg-surface border-t border-outline-variant">
         <div
