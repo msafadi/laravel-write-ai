@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -11,6 +12,11 @@ class HomeController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('home');
+        $posts = Post::published()
+            ->with(['user', 'category'])
+            ->latest('published_at')
+            ->paginate(10);
+
+        return view('home', compact('posts'));
     }
 }

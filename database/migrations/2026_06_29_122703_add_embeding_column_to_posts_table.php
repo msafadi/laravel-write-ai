@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->vector('embedding')
-                ->nullable()
-                //->index()
-                ->after('status');
+            // $table->vector('embedding')
+            //         ->nullable()
+            //         //->index()
+            //         ->after('status');
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->dropColumn('embedding');
+            // $table->dropColumn('embedding');
         });
     }
 };

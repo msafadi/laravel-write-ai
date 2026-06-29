@@ -6,7 +6,6 @@ use App\Enums\PostStatus;
 use App\Http\Resources\PostResource;
 use App\Models\Scopes\OwnerScope;
 use App\Observers\PostObserver;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\Appends;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
@@ -16,10 +15,9 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 #[Appends(['read_time'])]
 #[ScopedBy(OwnerScope::class)]
@@ -27,14 +25,19 @@ use Illuminate\Support\Str;
 #[UseResource(PostResource::class)]
 class Post extends Model
 {
-    use SoftDeletes;
     use Prunable;
+    use SoftDeletes;
 
     protected $connection = 'mysql';
+
     protected $table = 'posts';
+
     protected $primaryKey = 'id';
+
     public $incrementing = true;
+
     protected $keyType = 'int';
+
     public $timestamps = true;
 
     protected $fillable = [
@@ -72,20 +75,20 @@ class Post extends Model
 
     protected static function booted()
     {
-        //static::addGlobalScope('owner', new OwnerScope);
+        // static::addGlobalScope('owner', new OwnerScope);
 
         // creating, created, updating, updated, deleting, deleted
         // restoring, restored, forceDeleting, forceDeleted
         // retrieved, saving, saved
 
         static::creating(function (Post $post) {});
-        //static::observe(new PostObserver());
+        // static::observe(new PostObserver());
     }
 
     public function scopePublished(Builder $builder, string|\DateTime|null $time = null)
     {
         $builder
-            //->withoutGlobalScope('owner')
+            // ->withoutGlobalScope('owner')
             ->where('status', PostStatus::Published)
             ->where(function ($query) use ($time) {
                 $query->whereNull('published_at')
@@ -110,6 +113,20 @@ class Post extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function bookmarkers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'bookmarks')->withTimestamps();
+    }
+
+    public function isBookmarkedBy(?User $user): bool
+    {
+        if (! $user) {
+            return false;
+        }
+
+        return $this->bookmarkers()->where('user_id', $user->id)->exists();
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id', 'id')
@@ -132,15 +149,15 @@ class Post extends Model
     public function content(): Attribute
     {
         return new Attribute(
-            set: fn($value) => strip_tags($value, '<h2><h3><h4><h5><h6><p><a><ul><ol><li><br><strong><em><img><video><audio>'),
+            set: fn ($value) => strip_tags($value, '<h2><h3><h4><h5><h6><p><a><ul><ol><li><br><strong><em><img><video><audio>'),
         );
     }
 
     public function title(): Attribute
     {
         return new Attribute(
-            get: fn($value) => ucwords($value),
-            set: fn($value) => strip_tags($value),
+            get: fn ($value) => ucwords($value),
+            set: fn ($value) => strip_tags($value),
         );
     }
 
@@ -165,7 +182,7 @@ class Post extends Model
     public function publishTime(): Attribute
     {
         return new Attribute(
-            get: fn() => $this->published_at ?? $this->created_at,
+            get: fn () => $this->published_at ?? $this->created_at,
         );
     }
 
@@ -179,7 +196,7 @@ class Post extends Model
 
     public function getReadTimeAttribute()
     {
-        return  \ceil($this->wordCount() / 200);
+        return \ceil($this->wordCount() / 200);
     }
 
     public function wordCount(): int
@@ -190,7 +207,7 @@ class Post extends Model
     // $post->related();
     public function related($limit = 3, $same_category = false)
     {
-        if (!$this->embedding) {
+        if (! $this->embedding) {
             return $this->legacyRelated($limit, $same_category);
         }
 
