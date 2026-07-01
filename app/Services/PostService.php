@@ -9,6 +9,7 @@ use App\Http\Requests\PostRequest;
 use App\Models\Post;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Laravel\Ai\Embeddings;
 use Laravel\Ai\Enums\Lab;
 use Throwable;
@@ -23,9 +24,20 @@ class PostService
         //
     }
 
-    public function create(PostRequest $request): Post
+    public function create(array|PostRequest $request): Post
     {
-        $clean = $request->validated();
+        if ($request instanceof PostRequest) {
+            $clean = $request->validated();
+        } else {
+            $validator = Validator::make($request, [
+                'title' => 'required|string|max:255',
+                'content' => 'required|string',
+                'tags' => 'nullable|string',
+                'user_id' => 'required|int|exists:users,id',
+                'category_id' => 'nullable|int|exists:categories,id',
+            ]);
+            $clean = $validator->validate();
+        }
 
         $data = array_merge($clean, [
             'status' => 'published',
@@ -75,14 +87,14 @@ class PostService
             //     $post->cover_image = $image->store('covers', 'public');
             // }
 
-            $response = Embeddings::for([$post->content])
-                ->generate(
-                    provider: Lab::Gemini
-                );
+            // $response = Embeddings::for([$post->content])
+            //     ->generate(
+            //         provider: Lab::Gemini
+            //     );
             //dd($response->embeddings[0]);
             //$post->embedding = $response->embeddings[0];
 
-            $post->save();
+            //$post->save();
 
 
             //}

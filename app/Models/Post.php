@@ -42,6 +42,7 @@ class Post extends Model
 
     protected $fillable = [
         'category_id',
+        'user_id',
         'title',
         'content',
         'excerpt',
@@ -149,15 +150,15 @@ class Post extends Model
     public function content(): Attribute
     {
         return new Attribute(
-            set: fn ($value) => strip_tags($value, '<h2><h3><h4><h5><h6><p><a><ul><ol><li><br><strong><em><img><video><audio>'),
+            set: fn($value) => strip_tags($value, '<h2><h3><h4><h5><h6><p><a><ul><ol><li><br><strong><em><img><video><audio>'),
         );
     }
 
     public function title(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => ucwords($value),
-            set: fn ($value) => strip_tags($value),
+            get: fn($value) => ucwords($value),
+            set: fn($value) => strip_tags($value),
         );
     }
 
@@ -182,7 +183,7 @@ class Post extends Model
     public function publishTime(): Attribute
     {
         return new Attribute(
-            get: fn () => $this->published_at ?? $this->created_at,
+            get: fn() => $this->published_at ?? $this->created_at,
         );
     }
 
