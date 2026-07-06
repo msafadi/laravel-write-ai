@@ -15,7 +15,7 @@ use Laravel\Ai\Promptable;
 use Stringable;
 
 #[Provider(Lab::Gemini)]
-class SeoAgent implements Agent, Conversational, HasTools, HasStructuredOutput
+class SeoAgent implements Agent, Conversational, HasStructuredOutput, HasTools
 {
     use Promptable;
 

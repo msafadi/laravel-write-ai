@@ -21,7 +21,7 @@ class CategoryFactory extends Factory
             'name' => fake()->words(2, true),
             'description' => fake()->sentence(),
             'slug' => fake()->slug(),
-            //'parent_id' => Category::factory(),
+            // 'parent_id' => Category::factory(),
         ];
     }
 }

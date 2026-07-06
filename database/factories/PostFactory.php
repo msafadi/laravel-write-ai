@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,13 +22,14 @@ class PostFactory extends Factory
         return [
             'title' => fake()->words(10, true),
             'content' => fake()->paragraphs(7, true),
-            'user_id' => \App\Models\User::factory(),
-            'category_id' => \App\Models\Category::factory(),
+            'user_id' => User::factory(),
+            'category_id' => Category::factory(),
             'status' => fake()->randomElement(['draft', 'published', 'archived']),
             'views' => fake()->numberBetween(0, 1000),
             'published_at' => fake()->dateTimeBetween('-1 year', 'now'),
             'cover_image' => fake()->imageUrl(800, 600, 'nature'),
             'excerpt' => fake()->sentence(),
+            'slug' => fake()->slug(),
         ];
     }
 }

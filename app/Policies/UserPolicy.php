@@ -3,11 +3,9 @@
 namespace App\Policies;
 
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class UserPolicy
 {
-
     public function before($user, $ability)
     {
         if ($user->type == 'super-admin') {

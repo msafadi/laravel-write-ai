@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\PostStatus;
 use App\Events\PostViewed;
 use App\Models\Post;
-use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-
     public function index()
     {
         $posts = Post::query()->published()->latest()->get();
@@ -26,7 +23,7 @@ class PostController extends Controller
             ->slug($slug)
             ->firstOrFail();
 
-        //event('posts.viewed', $post);
+        // event('posts.viewed', $post);
         broadcast(new PostViewed($post))->toOthers();
 
         return view('posts.show', [

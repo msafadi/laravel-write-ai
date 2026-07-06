@@ -23,7 +23,7 @@ class AiWriteController extends Controller
         // SSE response
         $agent = WriterAgent::make()
             ->forUser($request->user());
-        
+
         if ($request->conversation_id) {
             $agent->continue($request->conversation_id, $request->user());
         }

@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
+    protected $connection = 'sqlite'; // Use the SQLite connection for this migration
+
     /**
      * Run the migrations.
      */

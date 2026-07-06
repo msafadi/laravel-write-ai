@@ -2,11 +2,11 @@
 
 namespace Tests\Unit;
 
-use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use App\Services\PostService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 
 class PostCreateServiceTest extends TestCase
@@ -38,7 +38,7 @@ class PostCreateServiceTest extends TestCase
     {
         $service = app(PostService::class);
 
-        $this->expectException(\Illuminate\Validation\ValidationException::class);
+        $this->expectException(ValidationException::class);
 
         $service->create([
             'title' => '', // Invalid title

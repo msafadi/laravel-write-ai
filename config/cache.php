@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 
 return [
@@ -112,7 +113,7 @@ return [
     |
     */
 
-    'prefix' => env('CACHE_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')).'-cache-'),
+    'prefix' => env('CACHE_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')) . '-cache-'),
 
     /*
     |--------------------------------------------------------------------------
@@ -125,6 +126,8 @@ return [
     |
     */
 
-    'serializable_classes' => false,
+    'serializable_classes' => [
+        LengthAwarePaginator::class,
+    ],
 
 ];

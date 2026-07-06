@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+
+/**
+ * @implements Scope<Model>
+ */
 class OwnerScope implements Scope
 {
     /**

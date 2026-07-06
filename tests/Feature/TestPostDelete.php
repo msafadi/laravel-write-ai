@@ -14,7 +14,6 @@ test('test delete post', function () {
         'user_id' => $user->id,
     ]);
 
-
     $response = $this->delete("/app/api/v1/posts/{$post->id}", [], [
         'Accept' => 'application/json',
     ]);

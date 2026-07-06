@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
-
-
-
     /**
      * Display a listing of the resource.
      */
@@ -41,7 +38,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //abort_if(!Auth::user()->can('create', User::class), 403);
+        // abort_if(!Auth::user()->can('create', User::class), 403);
         return __METHOD__;
     }
 
@@ -50,7 +47,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //abort_if(!Auth::user()->can('view', $user), 403);
+        // abort_if(!Auth::user()->can('view', $user), 403);
         return __METHOD__;
     }
 
@@ -59,7 +56,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //abort_if(!Auth::user()->can('update', $user), 403);
+        // abort_if(!Auth::user()->can('update', $user), 403);
         return __METHOD__;
     }
 
@@ -68,7 +65,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //abort_if(!Auth::user()->can('update', $user), 403);
+        // abort_if(!Auth::user()->can('update', $user), 403);
         return __METHOD__;
     }
 
@@ -78,7 +75,8 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         Gate::authorize('delete', $user);
-        //abort_if(!Auth::user()->can('delete', $user), 403);
+
+        // abort_if(!Auth::user()->can('delete', $user), 403);
         return __METHOD__;
     }
 }

@@ -16,7 +16,7 @@ class UpdateUserLastActivityTime
      */
     public function handle(Request $request, Closure $next): Response
     {
-        //dd($request->user());
+        // dd($request->user());
         if (Auth::check()) {
             $request->user()->forceFill([
                 'last_activity_at' => now(),

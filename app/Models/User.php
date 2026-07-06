@@ -73,7 +73,7 @@ class User extends Authenticatable
     public function avatarUrl(): Attribute
     {
         return new Attribute(
-            get: fn() => $this->avatar ? Storage::disk('public')->url($this->avatar) : asset('images/avatars/blank.png')
+            get: fn () => $this->avatar ? Storage::disk('public')->url($this->avatar) : asset('images/avatars/blank.png')
         );
     }
 
@@ -84,7 +84,7 @@ class User extends Authenticatable
 
     public function receivesBroadcastNotificationsOn()
     {
-        return 'App.Models.User.' . $this->id;
+        return 'App.Models.User.'.$this->id;
     }
 
     public function hasAbility(string $ability): bool

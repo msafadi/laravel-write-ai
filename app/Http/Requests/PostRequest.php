@@ -30,13 +30,13 @@ class PostRequest extends FormRequest
         $id = $this->route('post', 0);
 
         return [
-            //'title' => ['sometimes', 'required', 'min:3', 'max:255'],
+            // 'title' => ['sometimes', 'required', 'min:3', 'max:255'],
             'title' => ['required', 'min:3', 'max:255', Rule::unique('posts', 'title')->ignore($id)],
             'content' => [
                 'required',
                 'string',
                 'max:999999',
-                new Restricted(['god', 'admin'])
+                new Restricted(['god', 'admin']),
                 // function (string $attribute, string $value, callable $fail) {
                 //     if (str_contains($value, 'god')) {
                 //         $fail('This is not allowed');
@@ -48,7 +48,7 @@ class PostRequest extends FormRequest
                 'image',
                 'mimetypes:image/png,image/jpeg',
                 'dimensions:min_width=600,min_height=400,max_width=2000,max_height=2000',
-                'max:1024'
+                'max:1024',
             ],
             'tags' => ['nullable', 'string'],
             'published_at' => ['nullable', 'date'],

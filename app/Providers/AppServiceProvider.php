@@ -8,7 +8,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -36,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
 
         JsonResource::withoutWrapping();
 
-        //Event::listen(PostViewed::class, IncrementPostViews::class);
+        // Event::listen(PostViewed::class, IncrementPostViews::class);
 
         Gate::before(function ($user, $ability) {
             if ($user->type == 'super-admin') {
@@ -51,6 +50,7 @@ class AppServiceProvider extends ServiceProvider
                         return true;
                     }
                 }
+
                 return false;
             });
         }

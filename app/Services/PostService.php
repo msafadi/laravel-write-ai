@@ -24,6 +24,12 @@ class PostService
         //
     }
 
+    /**
+     * Create psot model
+     * 
+     * @param array<string,string>|PostRequest $request
+     * @return Post
+     */
     public function create(array|PostRequest $request): Post
     {
         if ($request instanceof PostRequest) {
@@ -47,10 +53,10 @@ class PostService
         DB::beginTransaction();
 
         try {
-            $post = Post::create($data);
+            $post = Post::query()->create($data);
             $this->syncTags->handle($post, $clean['tags'] ?? '');
 
-            //if (empty($post->meta)) {
+            // if (empty($post->meta)) {
             /*$content = strip_tags($post->content);
             $prompt = "Generate SEO metadata and summary (maximum words: 100) for this blog post.
                 - Post title: {$post->title}
@@ -68,7 +74,7 @@ class PostService
                 'keywords' => implode(', ', $response['keywords'] ?? []),
                 'summary' => $response['summary'] ?? '',
             ];*/
-            //$this->syncTags->handle($post, $response['keywords']);
+            // $this->syncTags->handle($post, $response['keywords']);
 
             // TODO: Move to a separate job
             // if (!$post->cover_image) {
@@ -91,13 +97,12 @@ class PostService
             //     ->generate(
             //         provider: Lab::Gemini
             //     );
-            //dd($response->embeddings[0]);
-            //$post->embedding = $response->embeddings[0];
+            // dd($response->embeddings[0]);
+            // $post->embedding = $response->embeddings[0];
 
-            //$post->save();
+            // $post->save();
 
-
-            //}
+            // }
 
             DB::commit();
 
@@ -112,7 +117,7 @@ class PostService
     {
         $clean = $request->validated();
         $data = \array_merge($clean, [
-            'cover_image' => $this->fileUpload->handle(key: 'cover', path: 'covers')
+            'cover_image' => $this->fileUpload->handle(key: 'cover', path: 'covers'),
         ]);
 
         try {
@@ -124,7 +129,7 @@ class PostService
 
             $previous = $post->getPrevious();
             $prev_cover_image = $previous['cover_image'] ?? null;
-            if ($prev_cover_image && $prev_cover_image !== $post->cover_image) {
+            if ($prev_cover_image && $prev_cover_image !== $post->getAttribute('cover_image')) {
                 Storage::disk('public')->delete($previous['cover_image']); // Delete the old cover image from storage
             }
 

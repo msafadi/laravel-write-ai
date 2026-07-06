@@ -3,27 +3,25 @@
 namespace Tests\Feature;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
-use JsonSerializable;
 use Tests\TestCase;
 
 class PostResourceApiTest extends TestCase
 {
-
     use RefreshDatabase;
 
     protected $posts;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->posts = Post::factory(5)->create();
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         parent::tearDown();
     }
@@ -54,7 +52,7 @@ class PostResourceApiTest extends TestCase
 
     public function test_posts_can_be_created_by_user(): void
     {
-        $user = \App\Models\User::factory()->create();
+        $user = User::factory()->create();
 
         $this->actingAs($user);
 
