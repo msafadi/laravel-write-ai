@@ -1,0 +1,25 @@
+name: Upload to FTP Server
+
+on:
+  push:
+    branches:
+      - main  # change to whichever branch should trigger deployment
+
+jobs:
+  ftp-deploy:
+    name: FTP Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/          # folder in your repo to upload
+          server-dir: /public_html/   # target folder on the FTP server
+          protocol: ftp               # use "ftps" if your server supports FTPS (recommended)
