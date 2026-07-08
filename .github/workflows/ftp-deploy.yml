@@ -20,6 +20,6 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/          # folder in your repo to upload
-          server-dir: /public_html/   # target folder on the FTP server
+          local-dir: ./          # folder in your repo to upload
+          server-dir: ./   # target folder on the FTP server
           protocol: ftp               # use "ftps" if your server supports FTPS (recommended)

@@ -10,3 +10,5 @@ Route::get('/user', function (Request $request) {
 Route::prefix('v1')->as('api.v1.')->group(__DIR__ . '/api/v1.php');
 
 Route::prefix('v2')->as('api.v2.')->group(__DIR__ . '/api/v2.php');
+
+Route::prefix('v3')->as('api.v3.')->group(__DIR__ . '/api/v1.php');
